@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>锄大地</title>
+</head>
+
+<body>
+    <center>
+        <h3>锄大地!</h3>
+        <form method="post">
+            {% csrf_token %}
+            <table width="800" border="1" style="text-align: center;">
+                <!-- 表头 -->
+                <tr>
+                    <th>uid</th>
+                    <th>类型</th>
+                    <th>容量</th>
+                    <th>时间</th>
+                </tr>
+                <!-- <tr>
+                    <td colspan="4" height="200%">我要发车</td>
+                </tr> -->
+                <!-- 提交表单 -->
+                <tr>
+                    <td><input type="text" name="uid" /></td>
+                    <!-- 发车类别的特殊处理 -->
+                    <td>
+                        <select name="class" required>
+                            {% for train_class_elem in train_class %}
+                            <option value="{{train_class_elem.id}}">{{train_class_elem.train_classname}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <!-- <td><input type="text" name="class" /></td> -->
+                    <td><input type="text" name="capacity" /></td>
+                    <td><input type="submit" value="发车" /></td>
+                </tr>
+                <!-- 已有的发车信息 -->
+                <tr>
+                    <td colspan="4" height="200%">发车信息</td>
+                </tr>
+                {% for train in train_list %}
+                <tr>
+                    <td>{{ train.train_uid }}</td>
+                    <!-- 发车类别的特殊显示 -->
+                    {% for train_class_elem in train_class %}
+                    {% if train_class_elem.id == train.train_class %}
+                    <td>{{ train_class_elem.train_classname }}</td>
+                    {% endif %}
+                    {% endfor %}
+                    <!-- <td>{{ train.train_class }}</td> -->
+                    <td>{{ train.train_capacity }}</td>
+                    <td>{{ train.train_time }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <!-- <br><br><br>
+            <table width="800" border="1" style="text-align: center;">
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                </tr>
+                {% for train_class_elem in train_class %}
+                <tr>
+                    <td>{{ train_class_elem.id }}</td>
+                    <td>{{ train_class_elem.train_classname }}</td>
+                </tr>
+                {% endfor %}
+            </table> -->
+        </form>
+    </center>
+</body>
+
+</html>
